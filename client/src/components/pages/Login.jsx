@@ -1,22 +1,35 @@
 import React from 'react'
-import { Form,Input } from 'antd';
+import { Form,Input,message } from 'antd';
 import './Styles/Register.css';
-import {Link} from 'react-router-dom';
+import {Link,useHistory} from 'react-router-dom';
+import axios from 'axios';  
 
 
 function Login() {
-  //  const navigate = useNavigate();
+   const navigate = useHistory();
 
   // HANDLING FORM SUBMISSION
- const onFinishHandler = (values) => {
-  console.log(values);
+ const onLoginHandler = async (values) => {
+  try{
+    const res = await axios.post('/api/v1/users/login',values); 
+    if(res.data.success){   
+      localStorage.setItem('token',res.data.token);
+      message.success("Logged In Successfully");
+     navigate.push('/');
+    }else{
+      message.error(res.data.message);
+    }
+  }
+  catch(err){
+    message.error("Something went wrong");
+  }
 };
 
   return (
 
     <>
         <div className="form-container">
-          <Form layout='vertical' onFinish={onFinishHandler} className='register-form'>
+          <Form layout='vertical' onFinish={onLoginHandler} className='register-form'>
           <h2 className='text-center'>Login</h2>
             <Form.Item label="Email" name="email" >
               <Input type="email" required />

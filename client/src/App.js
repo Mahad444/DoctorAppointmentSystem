@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter,Route} from 'react-router-dom';
 import HomePage from './components/pages/HomePage.jsx';
 import Login from './components/pages/Login.jsx';
-import Register from './components/pages/Register.jsx';
+import Register from './components/pages/Register.js';
 
 
 function App() {
