@@ -5,7 +5,8 @@ const router = express.Router();
 
 
 // @route Post api
-// @desc Login a user
+// @desc Login a user 
+// @access Public
 router.post('/register',RegisterController);
 
 router.post('/login',LoginController);
