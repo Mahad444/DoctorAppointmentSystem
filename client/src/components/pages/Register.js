@@ -1,18 +1,26 @@
 import React from 'react';
 import { Form,Input, message } from 'antd';
+// importing axios for making api calls
 import axios from 'axios';
 import './Styles/Register.css';
 import {Link,useHistory} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import { showLoading,hideLoading } from '../../Redux/Features/alertSlice';
 
 
 function Register() {
 
   const navigate = useHistory();
+  const dispacth = useDispatch();
 
   // HANDLING FORM SUBMISSION 
 const onFinishHandler =  async (values) => {
  try{
+  // importing sgowLoading and hideLoading from alertSlice
+  dispacth(showLoading());
+  // making api call to register user using axios with POST method
     const res = await axios.post('/api/v1/users/register',values); 
+    dispacth(hideLoading());
     if(res.data.success){
       message.success("Registered Successfully");
      navigate.push('/login');
@@ -21,6 +29,7 @@ const onFinishHandler =  async (values) => {
     }
   }
   catch(err){
+    dispacth(hideLoading());
     message.error("Something went wrong");
   }  
 };

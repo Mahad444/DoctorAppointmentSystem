@@ -27,7 +27,6 @@ module.exports = {
 },
 // Login a user
 LoginController : async (req, res,next) => {
-
     try {
         // 
 
@@ -40,19 +39,32 @@ LoginController : async (req, res,next) => {
         const password = req.body.password;
         const salt= await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
-         req.body.password = hashedPassword;
-
         const isMatch = await bcrypt.compare(password, hashedPassword);
         if (!isMatch) { return res.status(200).send({ message: "Invlid Email or Password", success: false });
+
         }
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-          expiresIn: "1d",
-        });
-        res.status(200).send({ message: "Login Success", success: true, token });
-      } catch (error) {
-        console.log(error);
-        res.status(500).send({ message: `Error in Login CTRL ${error.message}` });
-      }
+            expiresIn: "1d",
+            });
+            res.status(200).send({ message: "Login Success", success: true, token }); 
+        } catch (error) {
+            console.log(error);
+            res.status(500).send({ message: `Error in Login CTRL ${error.message}` });
+        }
+
+    
+
+    //     const isMatch = await bcrypt.compare(password, user.password);
+    //     if (!isMatch) { return res.status(200).send({ message: "Invlid Email or Password", success: false });
+    //     }
+    //     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    //       expiresIn: "1d",
+    //     });
+    //     res.status(200).send({ message: "Login Success", success: true, token });
+    //   } catch (error) {
+    //     console.log(error);
+    //     res.status(500).send({ message: `Error in Login CTRL ${error.message}` });
+    //   }
 
 },
 // Get a user
@@ -70,7 +82,7 @@ AuthController : async (req, res) => {
                     success:true,
                     data : {
                     name : user.name,
-                    email : user.email
+                    email : user.email,
                     }, 
                 })
             }
