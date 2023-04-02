@@ -35,7 +35,7 @@ module.exports = {
   // Login a user
   LoginController: async (req, res, next) => {
     try {
-      //
+      //checking if user is available
 
       const user = await userModel.findOne({ email: req.body.email });
       if (!user) {
