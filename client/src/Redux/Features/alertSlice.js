@@ -3,10 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const alertSlice = createSlice({
   name: "alerts",
   initialState: {
-    loading: false, // before adding loading to redux this code
-
-    // after adding loading to redux
-    // loading : true,
+    loading: false,
   },
   reducers: {
     showLoading: (state) => {
