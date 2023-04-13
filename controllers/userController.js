@@ -53,7 +53,7 @@ module.exports = {
           .send({ message: "Invlid Email or Password", success: false });
       }
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-        expiresIn: "1d",
+        expiresIn: "90d",
       });
       res.status(200).send({ message: "Login Success", success: true, token });
     } catch (error) {
