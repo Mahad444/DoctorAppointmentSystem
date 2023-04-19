@@ -5,7 +5,7 @@ import Login from './components/pages/Login.jsx';
 import Register from './components/pages/Register.js';
 import { useSelector } from 'react-redux';
 import Spinners from './components/spinners.js';
-import PublicRoute from './components/PublicRoute.js';
+
 
 
 function App() {
