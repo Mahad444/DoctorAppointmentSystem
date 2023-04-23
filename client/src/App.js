@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter,Route} from 'react-router-dom';
 import HomePage from './components/pages/HomePage.jsx';
 import Login from './components/pages/Login.jsx';
-import Register from './components/pages/Register.js';
+import Register from './components/pages/Register.js'; 
 import { useSelector } from 'react-redux';
 import Spinners from './components/spinners.js';
 
