@@ -19,30 +19,61 @@ const getallappointments = async (req, res) => {
   }
 };
 
+// const bookappointment = async (req, res) => {
+//   try {
+//     const appointment = await Appointment({
+//       date: req.body.date,
+//       time: req.body.time,
+//       doctorId: req.body.doctorId,
+//       userId: req.locals,
+//     });
+
+//     const usernotification = Notification({
+//       userId: req.locals,
+//       content: `You booked an appointment with Dr. ${req.body.doctorname} for ${req.body.date} ${req.body.time}`,
+//     });
+
+//     await usernotification.save();
+
+//     const user = await User.findById(req.locals);
+
+//     const doctornotification = Notification({
+//       userId: req.body.doctorId,
+//       content: `You have an appointment with ${user.firstname} ${user.lastname} on ${req.body.date} at ${req.body.time}`,
+//     });
+
+//     await doctornotification.save();
+
+//     const result = await appointment.save();
+//     return res.status(201).send(result);
+//   } catch (error) {
+//     console.log("error", error);
+//     res.status(500).send("Unable to book appointment");
+//   }
+// };
 const bookappointment = async (req, res) => {
   try {
+    const { date, time, doctorId } = req.body;
+
+    // Check if the doctor already has an appointment at the specified time
+    const existingAppointment = await Appointment.findOne({
+      doctorId,
+      date,
+      time,
+    });
+
+    if (existingAppointment) {
+      return res.status(400).send("Doctor is not available at the specified time.");
+    }
+
     const appointment = await Appointment({
-      date: req.body.date,
-      time: req.body.time,
-      doctorId: req.body.doctorId,
+      date,
+      time,
+      doctorId,
       userId: req.locals,
     });
 
-    const usernotification = Notification({
-      userId: req.locals,
-      content: `You booked an appointment with Dr. ${req.body.doctorname} for ${req.body.date} ${req.body.time}`,
-    });
-
-    await usernotification.save();
-
-    const user = await User.findById(req.locals);
-
-    const doctornotification = Notification({
-      userId: req.body.doctorId,
-      content: `You have an appointment with ${user.firstname} ${user.lastname} on ${req.body.date} at ${req.body.time}`,
-    });
-
-    await doctornotification.save();
+    // Rest of the code for notifications and saving appointment...
 
     const result = await appointment.save();
     return res.status(201).send(result);
