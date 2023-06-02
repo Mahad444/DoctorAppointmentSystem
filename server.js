@@ -1,34 +1,29 @@
-const express = require('express');
-const morgan = require('morgan');
-const dotenv = require('dotenv');
-const colors = require ('colors');
-const connectDB = require('./config/db');
-
-
-
-// LOAD ENV VARS
-dotenv.config();
-
-
-// CONNECT TO DATABASE
-connectDB();
-
-
-// REST OBJECTS
+const express = require("express");
+const cors = require("cors");
+ require("colors");
+require("dotenv").config();
+ require("./db/conn");
+const userRouter = require("./routes/userRoutes");
+const doctorRouter = require("./routes/doctorRoutes");
+const appointRouter = require("./routes/appointRoutes");
+// const path = require("path");
+const notificationRouter = require("./routes/notificationRouter");
 
 const app = express();
+const port = process.env.PORT || 5500;
 
-// MIDDLEWARE
+app.use(cors("http://localhost:3000"));
 app.use(express.json());
-app.use(morgan('dev'));
+app.use("/api/user", userRouter);
+app.use("/api/doctor", doctorRouter);
+app.use("/api/appointment", appointRouter);
+app.use("/api/notification", notificationRouter);
+// app.use(express.static(path.join(__dirname, "./client/build")));
 
-// ROUTES
-app.use('/api/v1/users', require('./routes/userRoute'));
-// PORT
-const PORT = process.env.PORT || 7070;
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "./client/build/index.html"));
+// });
 
-// LISTEN
-app.listen(PORT, () => {
-    console.log(`Server running in ${process.env.NODE_MODE} mode on port http://localhost:${PORT}`.yellow.bold);
-}
-);
+app.listen(port, () => {
+  console.log(`Server is running on port http://localhost:${port}`.bgYellow.bgWhite);
+} );
