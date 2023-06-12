@@ -112,8 +112,30 @@ const completed = async (req, res) => {
   }
 };
 
+// CANCEL THE APPOINTMENT AND SEND NOTIFICATION TO THE DOCTOR AND USER
+const canceled = async (req, res) => {
+  try { 
+    const alreadyFound = await Appointment.findOneAndUpdate(
+      { _id: req.body.appointid },
+      { status: "Cancelled" }
+    )
+    const usernotification = Notification({
+      userId: req.locals,
+      content: `Your appointment with ${req.body.doctorname} has been cancelled`,
+    });
+
+    await usernotification.save();
+  
+    res.status(201).send("Appointment cancelled");
+  } catch (error) {
+    res.status(500).send("Unable to cancel appointment");
+  }
+};
+
+
 module.exports = {
   getallappointments,
   bookappointment,
   completed,
+  canceled,
 };

@@ -77,6 +77,8 @@ const acceptdoctor = async (req, res) => {
   }
 };
 
+// REJECT DOCTOR APPLICATION AND SEND NOTIFICATION
+
 const rejectdoctor = async (req, res) => {
   try {
     const details = await User.findOneAndUpdate(
@@ -98,6 +100,8 @@ const rejectdoctor = async (req, res) => {
   }
 };
 
+// DELETE DOCTOR AND SEND NOTIFICATION
+
 const deletedoctor = async (req, res) => {
   try {
     const result = await User.findByIdAndUpdate(req.body.userId, {
@@ -115,6 +119,7 @@ const deletedoctor = async (req, res) => {
     res.status(500).send("Unable to delete doctor");
   }
 };
+
 
 module.exports = {
   getalldoctors,
